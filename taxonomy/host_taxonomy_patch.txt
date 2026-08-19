@@ -1,0 +1,17 @@
+# Taxonomy patch for MGnify mouse-gut Kraken2 database v1.0 → v1.1
+# Adds a custom Mus musculus node (taxid 3734) directly under root (taxid 1)
+#
+# NOTE: taxid 3734 is a custom sequential ID within the MGnify taxonomy tree.
+#       It is distinct from NCBI Taxonomy ID 10090 (Mus musculus).
+#
+# Apply by appending the lines below to names.dmp and nodes.dmp respectively,
+# or use the provided add_host_taxon.py script.
+
+# --- Line to append to names.dmp ---
+3734	|	Mus musculus	|		|	scientific name	|
+
+# --- Line to append to nodes.dmp ---
+# Fields: taxid | parent_taxid | rank | embl_code | division_id | inherited_div_flag
+#       | genetic_code_id | inherited_GC_flag | mitochondrial_genetic_code_id
+#       | inherited_MGC_flag | GenBank_hidden_flag | hidden_subtree_root_flag | comments
+3734	|	1	|	species	|		|	0	|	1	|	11	|	1	|	0	|	1	|	1	|	0	|

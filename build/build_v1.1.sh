@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# build_v1.1.sh
+# -------------
+# Builds the MGnify mouse-gut Kraken2/Bracken database v1.1 from v1.0
+# by incorporating a custom Mus musculus taxonomy node and the GRCm39
+# reference genome assembly.
+#
+# Prerequisites:
+#   - MGnify mouse-gut Kraken2 database v1.0 (source directory)
+#   - GRCm39 FASTA: GCF_000001635.27_GRCm39_genomic.fna
+#   - Kraken2 >= 2.1 (tested with v2.17.1)
+#   - Bracken (tested with v2.x)
+#   - Python 3 (for taxonomy modification)
+#
+# Usage:
+#   bash build_v1.1.sh \
+#     --v10-db   /path/to/mgnify_mouse_gut_v1.0 \
+#     --v11-db   /path/to/mgnify_mouse_gut_v1.1 \
+#     --grcm39   /path/to/GCF_000001635.27_GRCm39_genomic.fna \
+#     --threads  8
+#
+# Reference:
+#   Chen J-Y et al. (2026). PeerJ [DOI: pending]
+
+set -euo pipefail
+
+# ---------- argument parsing ----------
+V10_DB=""
+V11_DB=""
+GRCM39=""
+THREADS=8
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+usage() {
+  echo "Usage: $0 --v10-db <path> --v11-db <path> --grcm39 <fasta> [--threads N]"
+  exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --v10-db)   V10_DB="$2";   shift 2 ;;
+    --v11-db)   V11_DB="$2";   shift 2 ;;
+    --grcm39)   GRCM39="$2";   shift 2 ;;
+    --threads)  THREADS="$2";  shift 2 ;;
+    *) echo "Unknown option: $1"; usage ;;
+  esac
+done
+
+[[ -z "$V10_DB" || -z "$V11_DB" || -z "$GRCM39" ]] && usage
+
+echo "============================================="
+echo " MGnify mouse-gut Kraken2 database v1.1 build"
+echo "============================================="
+echo " v1.0 source : $V10_DB"
+echo " v1.1 target : $V11_DB"
+echo " GRCm39 FASTA: $GRCM39"
+echo " Threads     : $THREADS"
+echo "============================================="
+
+# ---------- Step 1: copy v1.0 database ----------
+echo ""
+echo "[1/5] Copying v1.0 database to v1.1 directory..."
+mkdir -p "$V11_DB"
+cp -r "$V10_DB/." "$V11_DB/"
+echo "      Done."
+
+# ---------- Step 2: modify taxonomy ----------
+echo ""
+echo "[2/5] Adding Mus musculus taxid 3734 to taxonomy files..."
+python3 "${SCRIPT_DIR}/../taxonomy/add_host_taxon.py" \
+  --names "${V11_DB}/taxonomy/names.dmp" \
+  --nodes "${V11_DB}/taxonomy/nodes.dmp"
+echo "      Taxonomy modification complete."
+
+# ---------- Step 3: prepare GRCm39 FASTA ----------
+echo ""
+echo "[3/5] Preparing GRCm39 FASTA headers for Kraken2 (taxid 3734)..."
+GRCM39_K2="${V11_DB}/library/host/GRCm39_k2.fa"
+mkdir -p "${V11_DB}/library/host"
+sed 's/^>\(\S*\)/>\1|kraken:taxid|3734/' "$GRCM39" > "$GRCM39_K2"
+echo "      FASTA prepared: $GRCM39_K2"
+
+echo ""
+echo "[4/5] Adding GRCm39 to Kraken2 library..."
+kraken2-build --add-to-library "$GRCM39_K2" --db "$V11_DB"
+echo "      Library addition complete."
+
+# ---------- Step 4: build Kraken2 database ----------
+echo ""
+echo "[5a/5] Building Kraken2 database (k-mer parameters inherited from v1.0 opts.k2d)..."
+kraken2-build --build --db "$V11_DB" --threads "$THREADS"
+echo "       Kraken2 build complete."
+
+# ---------- Step 5: build Bracken databases ----------
+echo ""
+echo "[5b/5] Building Bracken databases (read lengths: 50, 100, 150, 200, 250 bp)..."
+for len in 50 100 150 200 250; do
+  echo "       bracken-build -l ${len}..."
+  bracken-build -d "$V11_DB" -k 35 -l "$len" -t "$THREADS"
+done
+echo "       Bracken build complete."
+
+# ---------- Verification ----------
+echo ""
+echo "============================================="
+echo " Build complete. Verifying host k-mer coverage..."
+echo "============================================="
+kraken2-inspect --db "$V11_DB" --report-zero-counts \
+  | grep -i "Mus musculus\|taxid 3734\|3734" \
+  | head -5
+
+echo ""
+echo "Expected: taxid 3734 (Mus musculus) should account for ~23.55% of all k-mers."
+echo "Full inspect output: kraken2-inspect --db $V11_DB --report-zero-counts"
