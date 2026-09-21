@@ -4,7 +4,7 @@ title: "MGnify mouse-gut Kraken2/Bracken database v1.1 (host taxonomy extension)
 type: software
 authors:
   - family-names: Chen
-    given-names: "TODO(author): full given name(s) and any co-authors"
+    given-names: "Jing-Yuan"  # TODO(author): confirm; add any co-authors
     # orcid: "https://orcid.org/TODO"
     # affiliation: "TODO"
 license: MIT

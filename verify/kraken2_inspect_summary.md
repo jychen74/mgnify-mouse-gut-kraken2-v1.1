@@ -1,12 +1,12 @@
 # Kraken2 database v1.1 — verification results
 
 **Build date:** August 2026  
-**Kraken2 version used for build:** TODO(lab) - record `kraken2 --version` from the build environment  
-**K-mer parameters:** k = 35, minimizer length l = 31 (inherited from v1.0 `opts.k2d`)
+**Kraken2 version used for build:** 2.17.1 (bioconda); Bracken 3.1; Python 3.14.3; Ubuntu 22.04.3 LTS on WSL2  
+**K-mer parameters:** k = 35, minimizer length l = 31 (Kraken2 defaults, identical to v1.0; verified from `opts.k2d` of both databases)
 
 ## Host k-mer coverage
 
-After build, `kraken2-inspect` confirmed that the custom *Mus musculus* node (taxid 3734) accounts for **23.55%** of all k-mers in the completed v1.1 database, consistent with successful indexing of the GRCm39 reference genome assembly (GCF_000001635.27; 61 sequences, ~2.6 Gb).
+After build, `kraken2-inspect` confirmed that the custom *Mus musculus* node (taxid 3734) accounts for **23.55%** of all k-mers in the completed v1.1 database, consistent with successful indexing of the GRCm39 reference genome assembly (GCF_000001635.27; 61 sequences, 2,728,222,451 bp).
 
 ## Three-layer validation (GF negative-control mouse, barcode02)
 
