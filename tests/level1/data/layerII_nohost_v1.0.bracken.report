@@ -1,0 +1,10 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+MGYG000326584	1807	S	67	2	69	0.23077
+UBA3282 sp910578715	389	S	27	6	33	0.11037
+Eisenbergiella porci	2043	S	10	0	10	0.03344
+MGYG000360270	3110	S	21	1	22	0.07358
+RGIG7179 sp022793795	3422	S	28	7	35	0.11706
+MGYG000336888	3004	S	13	16	29	0.09699
+Akkermansia muciniphila_A	3078	S	32	20	52	0.17391
+Bilophila faecipullorum	3341	S	21	0	21	0.07023
+MGBC122484 sp910587815	3640	S	18	5	23	0.07692

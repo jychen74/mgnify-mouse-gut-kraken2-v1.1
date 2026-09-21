@@ -1,0 +1,28 @@
+metric	expected	note
+layerI_total_reads	34830	Kraken2 read-level; raw fastq_pass, database v1.0
+layerI_classified	6759	Kraken2 read-level (bacterial labels)
+layerI_unclassified	28071	Kraken2 read-level
+layerI_removed_by_minimap2	28646	Layer I reads absent from Layer II (host depletion)
+layerII_total_reads	6184	Reads retained after minimap2 depletion
+layerII_reads_found_in_layerI	6184	All Layer II reads are present in Layer I
+layerII_classified_v1.0	439	Kraken2 read-level, database v1.0
+layerII_unclassified_v1.0	5745	Kraken2 read-level, database v1.0
+layerIII_total_reads	6184	Same reads as Layer II
+layerIII_same_read_set_as_layerII	1	1 = identical read-ID sets
+layerIII_unclassified_v1.1	4846	Kraken2 read-level, database v1.1
+layerIII_taxid3734_reads	1214	Kraken2 read-level, Mus musculus (custom taxid 3734)
+layerIII_bacterial_reads	70	Kraken2 read-level, bacterial labels remaining under v1.1
+layerIII_root_reads	54	Kraken2 read-level, assigned to root (taxid 1)
+layerIII_classified_total	1338	1214 + 70 + 54
+flow_bacteria_to_taxid3734	318	Layer II bacterial -> Layer III taxid 3734
+flow_unclassified_to_taxid3734	896	Layer II unclassified -> Layer III taxid 3734
+flow_bacteria_to_bacteria	68	Layer II bacterial -> Layer III bacterial
+flow_bacteria_to_root	53	Layer II bacterial -> Layer III root
+flow_unclassified_to_bacteria_or_root	3	Layer II unclassified -> Layer III bacterial (2) or root (1)
+flow_unclassified_to_unclassified	4846	Layer II unclassified -> Layer III unclassified
+bracken_layerI_total_est_reads	6552	Sum of new_est_reads (Bracken, >=10-read threshold)
+bracken_layerII_total_est_reads	294	Sum of new_est_reads
+bracken_layerIII_total_est_reads	1280	Sum of new_est_reads
+bracken_layerIII_mus_est_reads	1265	Bracken new_est_reads for taxid 3734
+bracken_layerIII_bacterial_est_reads	15	Akkermansia muciniphila_A (single species)
+bracken_layerIII_mus_pct_2dp	98.83	100 * 1265 / 1280, rounded to 2 decimals

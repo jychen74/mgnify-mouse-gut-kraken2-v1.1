@@ -1,0 +1,10 @@
+{
+  "epi2me_instance_id": "01KZR0HVM2BXXEVEZ3S1552WVG",
+  "input_reads": "no_host_fastq",
+  "classifier": "kraken2",
+  "kraken2_database": "mgnify_mouse_gut_v1",
+  "kraken2_confidence": 0,
+  "bracken_threshold": 10,
+  "bracken_length": null,
+  "min_len": 0
+}
