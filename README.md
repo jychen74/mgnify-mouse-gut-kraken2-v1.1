@@ -2,7 +2,7 @@
 
 This repository provides scripts and taxonomy files to build a corrected version (v1.1) of the [MGnify mouse-gut Kraken2/Bracken pre-built database](https://www.ebi.ac.uk/metagenomics/), which extends the original v1.0 release with a *Mus musculus* host taxonomy node.
 
-> **Associated publication:** Chen J-Y et al. (2026). A missing host taxonomy node in the MGnify mouse-gut Kraken2 database causes systematic false-positive metagenomic classifications: identification, root-cause analysis, and a validated corrected database. *PeerJ* [DOI: pending]
+> **Associated publication:** Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *GigaScience* (Technical Note), in preparation [DOI: pending]
 
 ---
 
@@ -23,13 +23,16 @@ When residual host reads persist in sequencing data after minimap2 host depletio
 ```
 ├── README.md
 ├── LICENSE
+├── CITATION.cff
 ├── taxonomy/
 │   ├── add_host_taxon.py        # Script to add taxid 3734 to v1.0 taxonomy files
 │   └── host_taxonomy_patch.txt  # Exact lines added to names.dmp and nodes.dmp
 ├── build/
 │   └── build_v1.1.sh            # Complete database build script
-└── verify/
-    └── kraken2_inspect_summary.md  # Post-build verification results
+├── verify/
+│   └── kraken2_inspect_summary.md  # Post-build verification results
+└── tests/
+    └── level1/                   # Test package, level 1 (no database needed)
 ```
 
 ---
@@ -39,8 +42,8 @@ When residual host reads persist in sequencing data after minimap2 host depletio
 ### Prerequisites
 
 - MGnify mouse-gut Kraken2 database v1.0 (downloaded from [MGnify FTP](https://ftp.ebi.ac.uk/pub/databases/metagenomics/))
-- Kraken2 (tested with v2.17.1)
-- Bracken (tested with v2.x)
+- Kraken2 >= 2.1 (build version: **TODO(lab)** - record the output of `kraken2 --version` from the build environment)
+- Bracken (build version: **TODO(lab)** - record the version used for `bracken-build`; the classification workflow used Bracken v3.0.1)
 - GRCm39 *Mus musculus* reference genome: `GCF_000001635.27_GRCm39_genomic.fna` (available from [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001635.27/))
 - Python 3 (for the taxonomy modification script)
 
@@ -61,9 +64,10 @@ Or manually append the lines documented in `taxonomy/host_taxonomy_patch.txt`.
 ### Step 2 — Add the GRCm39 genome to the library
 
 ```bash
-# Prepare FASTA headers for Kraken2 (assign taxid 3734 to all sequences)
-# The add_host_taxon.py script handles header formatting automatically.
-# Alternatively, use sed:
+# Prepare FASTA headers for Kraken2 (assign taxid 3734 to all sequences).
+# Header formatting is done with sed; add_host_taxon.py edits the taxonomy files only.
+# The |kraken:taxid|3734 tag must directly follow the sequence ID (no space);
+# inspect the input first with: grep ">" GCF_000001635.27_GRCm39_genomic.fna | head -3
 sed 's/^>\(\S*\)/>\1|kraken:taxid|3734/' GCF_000001635.27_GRCm39_genomic.fna > GRCm39_k2.fa
 
 kraken2-build --add-to-library GRCm39_k2.fa \
@@ -100,11 +104,35 @@ See `verify/kraken2_inspect_summary.md` for our build verification results.
 
 ---
 
+## Input provenance and tested environment
+
+| Item | Value |
+|------|-------|
+| MGnify mouse-gut database v1.0 | Downloaded from the MGnify FTP server on 23 April 2026 (database release December 2023). Checksum of the downloaded archive: **TODO(lab)** |
+| GRCm39 assembly | `GCF_000001635.27_GRCm39_genomic.fna` (61 sequences), NCBI Datasets, downloaded 26 November 2025; md5 `dfb4be77c2031b87848c0de819763b90` |
+| Classification workflow | EPI2ME wf-metagenomics v2.14.2 with Kraken2 2.1.3, Bracken v3.0.1, minimap2 2.28-r1209 (see `tests/level1/provenance/`) |
+| Build environment | OS: **TODO(lab)**; Kraken2: **TODO(lab)**; Bracken: **TODO(lab)**; Python: **TODO(lab)** |
+| v1.1 database archive | Location, size and md5: **TODO** (to be added once the archive is deposited) |
+
+---
+
+## Test package
+
+| Level | What it checks | Needs | Status |
+|-------|----------------|-------|--------|
+| 1 | Read-level counts and figure code, recomputed from the shipped EPI2ME outputs | R only (`tests/level1/`) | Available |
+| 2 | Re-classification of a small read subset against the v1.1 database with the expected Kraken2 report | v1.1 database archive | **TODO** (pending lab re-runs and database deposit) |
+| 3 | Full rebuild from v1.0 + GRCm39 using `build/build_v1.1.sh`, with checksums of the resulting files | v1.0 database, GRCm39 FASTA, several hours of compute | **TODO** (checksum list pending) |
+
+Run level 1 with `cd tests/level1 && Rscript check_level1.R`; see `tests/level1/README.md`.
+
+---
+
 ## Expected behaviour after correction
 
 | Condition | v1.0 result | v1.1 result |
 |-----------|-------------|-------------|
-| GF negative-control sample | *Mus musculus* reads: 0% (taxid absent); false-positive bacterial reads present | *Mus musculus* reads: ~98.75% of species-classifiable reads; bacterial FP reads: ~0 |
+| GF negative-control sample | *Mus musculus* reads: 0% (taxid absent); false-positive bacterial reads present | *Mus musculus* reads: 98.83% of species-classifiable reads (1,265/1,280 Bracken-estimated reads); residual bacterial reads: 15 (one species) |
 | SPF mouse samples | Host reads dispersed across bacterial taxa | Host reads correctly assigned to *Mus musculus* (taxid 3734) |
 
 ---
@@ -119,7 +147,7 @@ Because the *Mus musculus* node (taxid 3734) is placed directly under root (taxi
 
 If you use this corrected database or these scripts, please cite:
 
-> Chen J-Y et al. (2026). A missing host taxonomy node in the MGnify mouse-gut Kraken2 database causes systematic false-positive metagenomic classifications: identification, root-cause analysis, and a validated corrected database. *PeerJ* [DOI: pending]
+> Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *GigaScience* (Technical Note), in preparation [DOI: pending]
 
 Please also cite the original MGnify database:
 

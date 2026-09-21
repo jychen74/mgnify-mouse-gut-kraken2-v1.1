@@ -8,8 +8,8 @@
 # Prerequisites:
 #   - MGnify mouse-gut Kraken2 database v1.0 (source directory)
 #   - GRCm39 FASTA: GCF_000001635.27_GRCm39_genomic.fna
-#   - Kraken2 >= 2.1 (tested with v2.17.1)
-#   - Bracken (tested with v2.x)
+#   - Kraken2 >= 2.1 (build version: TODO(lab) - record `kraken2 --version`)
+#   - Bracken (build version: TODO(lab) - record the version used for bracken-build)
 #   - Python 3 (for taxonomy modification)
 #
 # Usage:
@@ -20,7 +20,7 @@
 #     --threads  8
 #
 # Reference:
-#   Chen J-Y et al. (2026). PeerJ [DOI: pending]
+#   Chen J-Y et al. (2026). GigaScience (Technical Note), in preparation [DOI: pending]
 
 set -euo pipefail
 

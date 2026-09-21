@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this database or these scripts, please cite the associated publication."
+title: "MGnify mouse-gut Kraken2/Bracken database v1.1 (host taxonomy extension)"
+type: software
+authors:
+  - family-names: Chen
+    given-names: "TODO(author): full given name(s) and any co-authors"
+    # orcid: "https://orcid.org/TODO"
+    # affiliation: "TODO"
+license: MIT
+repository-code: "https://github.com/jychen74/mgnify-mouse-gut-kraken2-v1.1"
+abstract: >-
+  Scripts and taxonomy files that extend the MGnify mouse-gut Kraken2/Bracken
+  database v1.0 with a custom Mus musculus taxonomy node (taxid 3734) and the
+  GRCm39 reference genome, producing database v1.1.
+keywords:
+  - Kraken2
+  - Bracken
+  - metagenomics
+  - host taxonomy
+  - mouse gut microbiome
+# version: "TODO: set when the release tag is created (e.g. 1.1.0)"
+# doi: "TODO: Zenodo version DOI after the GitHub release"
+# date-released: "TODO"

@@ -23,9 +23,9 @@ Note:
     taxonomy does not include eukaryotic superkingdom nodes.
 
 Reference:
-    Chen J-Y et al. (2026). A missing host taxonomy node in the MGnify
-    mouse-gut Kraken2 database causes systematic false-positive metagenomic
-    classifications. PeerJ [DOI: pending]
+    Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database
+    with host taxonomy eliminates systematic false-positive classifications.
+    GigaScience (Technical Note), in preparation [DOI: pending]
 """
 
 import argparse

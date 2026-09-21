@@ -1,2 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Keep shell/R scripts and the test-package checksums LF on every platform
+*.sh text eol=lf
+*.R text eol=lf
+tests/level1/data/MD5SUMS text eol=lf
+# Test-package data must stay byte-identical (md5sum -c): never convert line endings
+tests/level1/data/*.tsv -text
+tests/level1/data/*.report -text
