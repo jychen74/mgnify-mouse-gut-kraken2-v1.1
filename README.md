@@ -2,7 +2,7 @@
 
 This repository provides scripts and taxonomy files to build a corrected version (v1.1) of the [MGnify mouse-gut Kraken2/Bracken pre-built database](https://www.ebi.ac.uk/metagenomics/), which extends the original v1.0 release with a *Mus musculus* host taxonomy node.
 
-> **Associated publication:** Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *GigaScience* (Technical Note), in preparation [DOI: pending]
+> **Associated publication:** Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
 
 ---
 
@@ -28,7 +28,8 @@ When residual host reads persist in sequencing data after minimap2 host depletio
 │   ├── add_host_taxon.py        # Script to add taxid 3734 to v1.0 taxonomy files
 │   └── host_taxonomy_patch.txt  # Exact lines added to names.dmp and nodes.dmp
 ├── build/
-│   └── build_v1.1.sh            # Complete database build script
+│   ├── build_v1.1.sh            # Mouse-specific convenience build script (v1.0 → v1.1)
+│   └── add_host_genome.sh       # Generic framework: any GTDB database × any host genome
 ├── verify/
 │   └── kraken2_inspect_summary.md  # Post-build verification results
 └── tests/
@@ -150,7 +151,7 @@ Because the *Mus musculus* node (taxid 3734) is placed directly under root (taxi
 
 If you use this corrected database or these scripts, please cite:
 
-> Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *GigaScience* (Technical Note), in preparation [DOI: pending]
+> Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
 
 Please also cite the original MGnify database:
 
