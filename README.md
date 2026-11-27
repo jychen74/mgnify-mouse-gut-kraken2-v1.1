@@ -1,8 +1,8 @@
 # MGnify Mouse-Gut Kraken2/Bracken Database v1.1
 
-This repository provides scripts and taxonomy files to build a corrected version (v1.1) of the [MGnify mouse-gut Kraken2/Bracken pre-built database](https://www.ebi.ac.uk/metagenomics/), which extends the original v1.0 release with a *Mus musculus* host taxonomy node.
+This repository provides scripts and taxonomy files to build a corrected version (v1.1) of the [MGnify mouse-gut Kraken2/Bracken pre-built database v1.0](https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/mouse-gut/v1.0/kraken2_db_mouse-gut_v1.0/), which extends the original v1.0 release with a *Mus musculus* host taxonomy node.
 
-> **Associated publication:** Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
+> **Associated publication:** Chen J-Y (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy greatly reduces systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
 
 ---
 
@@ -42,7 +42,7 @@ When residual host reads persist in sequencing data after minimap2 host depletio
 
 ### Prerequisites
 
-- MGnify mouse-gut Kraken2 database v1.0 (downloaded from [MGnify FTP](https://ftp.ebi.ac.uk/pub/databases/metagenomics/))
+- MGnify mouse-gut Kraken2 database v1.0 (downloaded from the [MGnify FTP server](https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/mouse-gut/v1.0/kraken2_db_mouse-gut_v1.0/))
 - Kraken2 (database built with v2.17.1 from bioconda; the resulting database was read successfully by Kraken2 v2.1.3 in the EPI2ME workflow)
 - Bracken (`bracken-build` v3.1; the EPI2ME classification workflow used Bracken v3.0.1)
 - GRCm39 *Mus musculus* reference genome: `GCF_000001635.27_GRCm39_genomic.fna` (available from [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001635.27/))
@@ -112,11 +112,11 @@ See `verify/kraken2_inspect_summary.md` for our build verification results.
 
 | Item | Value |
 |------|-------|
-| MGnify mouse-gut database v1.0 | Downloaded from the MGnify FTP server on 23 April 2026 (database release December 2023). Checksum of the downloaded archive: **TODO(lab)** |
+| MGnify mouse-gut database v1.0 | Downloaded from the MGnify FTP server on 23 April 2026 (database release December 2023). Source directory: https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/mouse-gut/v1.0/kraken2_db_mouse-gut_v1.0/ |
 | GRCm39 assembly | `GCF_000001635.27_GRCm39_genomic.fna` (61 sequences, 2,728,222,451 bp), NCBI Datasets, downloaded 26 November 2025; md5 `dfb4be77c2031b87848c0de819763b90` (re-verified 21 September 2026) |
 | Classification workflow | EPI2ME wf-metagenomics v2.14.2 with Kraken2 2.1.3, Bracken v3.0.1, minimap2 2.28-r1209 (see `tests/level1/provenance/`) |
 | Build environment | Ubuntu 22.04.3 LTS (WSL2, kernel 6.6.87.2); Kraken2 2.17.1; Bracken 3.1; Python 3.14.3 (conda environment, bioconda/conda-forge) |
-| v1.1 database archive | Runtime files only (`hash.k2d` 15 GB, `taxo.k2d`, `opts.k2d`, `taxonomy/`, `seqid2taxid.map`, `database*mers.kmer_distrib`), about 15 GB in total. Location and md5: **TODO** (to be added once the archive is deposited) |
+| v1.1 database archive | Runtime files only (`hash.k2d` 15 GB, `taxo.k2d`, `opts.k2d`, `taxonomy/`, `seqid2taxid.map`, `database*mers.kmer_distrib`), about 15 GB in total. Deposited at Zenodo: https://doi.org/10.5281/zenodo.22004993 |
 
 ---
 
@@ -125,8 +125,8 @@ See `verify/kraken2_inspect_summary.md` for our build verification results.
 | Level | What it checks | Needs | Status |
 |-------|----------------|-------|--------|
 | 1 | Read-level counts and figure code, recomputed from the shipped EPI2ME outputs | R only (`tests/level1/`) | Available |
-| 2 | Re-classification of a small read subset against the v1.1 database with the expected Kraken2 report | v1.1 database archive | **TODO** (pending lab re-runs and database deposit) |
-| 3 | Full rebuild from v1.0 + GRCm39 using `build/build_v1.1.sh`, with checksums of the resulting files | v1.0 database, GRCm39 FASTA, several hours of compute | **TODO** (checksum list pending) |
+| 2 | Re-classification of a small read subset against the v1.1 database with the expected Kraken2 report | v1.1 database archive | Not included in this release |
+| 3 | Full rebuild from v1.0 + GRCm39 using `build/build_v1.1.sh`, with checksums of the resulting files | v1.0 database, GRCm39 FASTA, several hours of compute | Not included in this release |
 
 Run level 1 with `cd tests/level1 && Rscript check_level1.R`; see `tests/level1/README.md`.
 
@@ -151,7 +151,7 @@ Because the *Mus musculus* node (taxid 3734) is placed directly under root (taxi
 
 If you use this corrected database or these scripts, please cite:
 
-> Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy eliminates systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
+> Chen J-Y (2026). Extending the MGnify mouse-gut Kraken2 database with host taxonomy greatly reduces systematic false-positive classifications. *Microbial Genomics* (Technical Resource), in preparation [DOI: pending]
 
 Please also cite the original MGnify database:
 
@@ -161,4 +161,4 @@ Please also cite the original MGnify database:
 
 ## License
 
-Scripts in this repository are released under the MIT License. The underlying MGnify database v1.0 retains its original license from EMBL-EBI.
+Scripts in this repository are released under the MIT License. The underlying MGnify mouse-gut database v1.0 is provided by EMBL-EBI under the [EMBL-EBI Terms of Use](https://www.ebi.ac.uk/about/terms-of-use/); please also cite MGnify when using v1.1.

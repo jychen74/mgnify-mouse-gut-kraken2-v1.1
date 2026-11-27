@@ -42,7 +42,7 @@
 #   Hamster : --host-name "Mesocricetus auratus" --host-taxid 3736
 #
 # Reference:
-#   Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database
+#   Chen J-Y (2026). Extending the MGnify mouse-gut Kraken2 database
 #   with host taxonomy greatly reduces systematic false-positive classifications.
 #   Microbial Genomics (Technical Resource), in preparation.
 

@@ -20,7 +20,7 @@
 #     --threads  8
 #
 # Reference:
-#   Chen J-Y et al. (2026). Microbial Genomics (Technical Resource), in preparation [DOI: pending]
+#   Chen J-Y (2026). Microbial Genomics (Technical Resource), in preparation [DOI: pending]
 
 set -euo pipefail
 

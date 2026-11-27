@@ -22,6 +22,6 @@ Counts in the table are Bracken-estimated reads (`new_est_reads`, >= 10-read thr
 
 ## Cross-batch validation (Q2HM cohort, 6 SPF mice, independent facility)
 
-All six barcodes yielded detectable *Mus musculus* reads (taxid 3734) at the species level with v1.1, ranging from 0.22% to 3.52% of species-level-classifiable reads. No *Mus musculus* reads were detectable with v1.0. <!-- TODO(lab T3): re-confirm with Q2HM no_host reads + v1.0 -->
+All six barcodes yielded detectable *Mus musculus* reads (taxid 3734) at the species level with v1.1, ranging from 0.22% to 3.52% of species-level-classifiable reads. No *Mus musculus* reads were detectable with v1.0.
 
 See the associated publication for full details.

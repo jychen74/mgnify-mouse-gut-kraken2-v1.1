@@ -1,5 +1,5 @@
 # =============================================================================
-# Fig 4 — Read-level flow of GF mouse (barcode02) reads across Layers I → III
+# Supplementary script (not a manuscript figure) — Read-level flow of GF mouse (barcode02) reads across Layers I → III
 # Paper: "Extending the MGnify mouse-gut Kraken2/Bracken database..."
 # Input : Kraken2 read-level assignments shipped in tests/level1/data (EPI2ME wf-metagenomics reads_assignments)
 #   Layer I  : raw fastq_pass      + v1.0   (01M2MQW75DGVM9P5HHSHR3SM43)

@@ -44,7 +44,7 @@ Options:
     --rank          Taxonomic rank string (default: "species")
 
 Reference:
-    Chen J-Y et al. (2026). Extending the MGnify mouse-gut Kraken2 database
+    Chen J-Y (2026). Extending the MGnify mouse-gut Kraken2 database
     with host taxonomy greatly reduces systematic false-positive classifications.
     Microbial Genomics (Technical Resource), in preparation.
 """
